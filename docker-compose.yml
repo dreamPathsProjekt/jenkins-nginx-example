@@ -14,7 +14,7 @@ services:
       - jenkins:/var/jenkins_home
     environment:
       - JENKINS_OPTS="--prefix=/jenkins"
-    network:
+    networks:
         - jenkins_net      
     deploy:
       mode: replicated
@@ -30,7 +30,7 @@ services:
     deploy:
       mode: replicated
       replicas: 1
-    network:
+    networks:
       - jenkins_net
     ports:
       - "80:80"
