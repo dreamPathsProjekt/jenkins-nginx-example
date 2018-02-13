@@ -3,14 +3,35 @@ version: "3.3"
 volumes:
   jenkins: {}
 
+networks:
+  jenkins_net:
+    driver: overlay
+
 services:
   jenkins:
     image: jenkins/jenkins:lts
     volumes:
       - jenkins:/var/jenkins_home
+    environment:
+      - JENKINS_OPTS="--prefix=/jenkins"
+    network:
+        - jenkins_net      
     deploy:
       mode: replicated
       replicas: 1
+    # ports:
+    #   - "8080:8080"
+    #   - "50000:50000"
+      
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - ./nginx:/usr/local/nginx/conf/
+    deploy:
+      mode: replicated
+      replicas: 1
+    network:
+      - jenkins_net
     ports:
-      - "8080:8080"
-      - "50000:50000"  
+      - "80:80"
+      - "443:443"
