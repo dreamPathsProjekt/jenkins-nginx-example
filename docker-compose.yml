@@ -12,8 +12,8 @@ services:
     image: jenkins/jenkins:lts
     volumes:
       - jenkins:/var/jenkins_home
-    environment:
-      - JENKINS_OPTS="--prefix=/jenkins"
+    # environment:
+    #   - JENKINS_OPTS="--prefix=/jenkins"
     networks:
         - jenkins_net      
     deploy:
@@ -24,9 +24,9 @@ services:
     #   - "50000:50000"
       
   nginx:
-    image: nginx:stable-alpine
+    image: nginx:1.12-alpine
     volumes:
-      - ./nginx:/usr/local/nginx/conf/
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     deploy:
       mode: replicated
       replicas: 1
